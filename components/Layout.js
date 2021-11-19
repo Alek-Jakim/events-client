@@ -1,9 +1,17 @@
 import Head from "next/head"
 import Header from "./Header"
 import Footer from "./Footer"
+import Showcase from "./Showcase"
 import styles from "@/styles/Layout.module.css"
+import { useRouter } from "next/router"
 
 const Layout = ({title, keywords, description, children}) => {
+
+    const router = useRouter();
+
+    const {pathname} = router;
+
+
     return (
         <div>
             <Head>
@@ -13,6 +21,12 @@ const Layout = ({title, keywords, description, children}) => {
             </Head>
 
             <Header />
+
+
+            {/*Show the Showcase component only on the Home Page path */
+            pathname === "/" && <Showcase />
+            }
+
             <div className={styles.container}>
                 {children}
             </div>
