@@ -68,6 +68,7 @@ function Home() {
     <ul>
       <li>
         <Link href="/">
+        {/*if you want to add styles, you need to include an anchor tag inside the Link tag, otherwise it is not necessary*/}
           <a>Home</a>
         </Link>
       </li>
