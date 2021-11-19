@@ -157,3 +157,48 @@ export default function HomePage() {
   )
 }
 ```
+
+---
+
+## 404 Page
+
+```javascript
+import Link from "next/link"
+
+const NotFoundPage = () => {
+    return (
+            <div>
+                <h4>404: Sorry, the page that you were looking for doesn't exist.</h4>
+                <Link href="/">Go Back to Home Page</Link>
+            </div>
+    )
+}
+
+export default NotFoundPage
+```
+
+---
+
+## Module Aliases with `jsconfig.json`
+
+Next.js automatically supports the `tsconfig.json` and `jsconfig.json` "paths" and "baseUrl" options since Next.js 9.4.
+
+**Note: jsconfig.json can be used when you don't use TypeScript**
+
+**Note: you need to restart dev server to reflect modifications done in tsconfig.json / jsconfig.json**
+
+
+```json
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/components/*": ["components/*"],
+        "@/styles/*": ["styles/*"],
+        "@/config/*": ["config/*"],
+        "@/context/*": ["context/*"],
+        "@/helpers/*": ["helpers/*"]
+      }
+    }
+}
+```
