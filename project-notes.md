@@ -202,3 +202,74 @@ Next.js automatically supports the `tsconfig.json` and `jsconfig.json` "paths" a
     }
 }
 ```
+
+---
+
+## Api Routes
+
+Any file inside the folder `pages/api` is mapped to `/api/*` and will be treated as an API endpoint instead of a page.
+
+For example, the following API route pages/api/user.js returns a json response with a status code of 200:
+
+```javascript
+export default function handler(req, res) {
+  res.status(200).json({ name: 'John Doe' })
+}
+```
+
+### Example 1: Get all events
+
+```javascript
+const { events } = require("./data.json");
+
+export default function handler(req, res) {
+  if (req.method === "GET") {
+    res.status(200).json(events)
+  } else {
+    //response.setHeader() allows you only to set a singular header.
+    res.setHeader("Allow", ["GET"]);
+    // 405 means the server has rejected the specific HTTP method hence, not allowed
+    res.status(405).json({
+      message: `Method ${req.method} is not allowed.`
+    })
+  }
+}
+```
+
+### Example 2: Get a single slug(event)
+
+```javascript
+//If it was an ID we are looking for, it would be called [id].js, not slug
+
+const { events } = require("./data.json");
+
+export default function handler(req, res) {
+
+    const slug = req.query.slug;
+
+    const evt = events.filter(event => event.slug === slug);
+
+    if (req.method === "GET") {
+        res.status(200).json(evt)
+    } else {
+        //response.setHeader() allows you only to set a singular header.
+        res.setHeader("Allow", ["GET"]);
+        // 405 means the server has rejected the specific HTTP method hence, not allowed
+        res.status(405).json({
+            message: `Method ${req.method} is not allowed.`
+        })
+    }
+}
+```
+
+---
+
+## Data Fetching: `getServerSideProps` & `getStaticProps`
+
+Next.js has 3 functions you can use to fetch data for pre-rendering:
+
+* `getStaticProps` (Static Generation): Fetch data at build time.
+
+* `getStaticPaths` (Static Generation): Specify dynamic routes to pre-render pages based on data.
+
+* `getServerSideProps` (Server-side Rendering): Fetch data on each request. In addition, we’ll talk briefly about how to fetch data on the client side.
