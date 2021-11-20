@@ -1,10 +1,9 @@
 import Layout from "@/components/Layout"
+import EventItem from "@/components/EventItem"
+import Link from "next/link"
 import { API_URL } from "@/config/index"
 
 export default function HomePage({ eventsData }) {
-
-
-  console.log(eventsData);
 
   return (
     <Layout>
@@ -13,8 +12,14 @@ export default function HomePage({ eventsData }) {
 
 
       {eventsData.map(event => (
-        <h3 key={event.id}>{event.name}</h3>
+        <EventItem key={event.id} event={event} />
       ))}
+
+      {eventsData.length > 0 && (
+        <Link href="/events">
+          <a className="btn-secondary">View All Events</a>
+        </Link>
+      )}
     </Layout>
   )
 }
@@ -36,7 +41,9 @@ export async function getStaticProps() {
   return {
     props: {
       //You return the data here and you catch it above as props 
-      eventsData,
+
+      //By slicing you get the first three events
+      eventsData: eventsData.slice(0, 3),
 
       //An optional amount in seconds after which a page re-generation can occur. 
       revalidate: 1
