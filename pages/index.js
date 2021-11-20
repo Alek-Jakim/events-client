@@ -3,19 +3,19 @@ import EventItem from "@/components/EventItem"
 import Link from "next/link"
 import { API_URL } from "@/config/index"
 
-export default function HomePage({ eventsData }) {
+export default function HomePage({ evt }) {
 
   return (
     <Layout>
       <h1>Upcoming Events</h1>
-      {eventsData.length === 0 && <h3>No events at this moment</h3>}
+      {evt.length === 0 && <h3>No events at this moment</h3>}
 
 
-      {eventsData.map(event => (
+      {evt.map(event => (
         <EventItem key={event.id} event={event} />
       ))}
 
-      {eventsData.length > 0 && (
+      {evt.length > 0 && (
         <Link href="/events">
           <a className="btn-secondary">View All Events</a>
         </Link>
@@ -31,10 +31,10 @@ export async function getStaticProps() {
 
   const res = await fetch(`${API_URL}/api/events`);
 
-  const eventsData = await res.json();
+  const evt = await res.json();
 
   //This will log in the terminal, not on the client since it is server side
-  //console.log(eventsData);
+  //console.log(evt);
 
   //This function must RETURN an object, otherwise it will give you an error
 
@@ -43,7 +43,7 @@ export async function getStaticProps() {
       //You return the data here and you catch it above as props 
 
       //By slicing you get the first three events
-      eventsData: eventsData.slice(0, 3),
+      evt: evt.slice(0, 3),
 
       //An optional amount in seconds after which a page re-generation can occur. 
       revalidate: 1
