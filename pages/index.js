@@ -29,7 +29,7 @@ export async function getStaticProps() {
 
   //const res = await fetch("/api/events") --> you can't do this, only absolute routes work
 
-  const res = await fetch(`${API_URL}/api/events`);
+  const res = await fetch(`${API_URL}/events?_sort=date:ASC&_limit=3`);
 
   const evt = await res.json();
 
@@ -39,14 +39,7 @@ export async function getStaticProps() {
   //This function must RETURN an object, otherwise it will give you an error
 
   return {
-    props: {
-      //You return the data here and you catch it above as props 
-
-      //By slicing you get the first three events
-      evt: evt.slice(0, 3),
-
-      //An optional amount in seconds after which a page re-generation can occur. 
-      revalidate: 1
-    }
+    props: { evt },
+    revalidate: 1
   }
 }

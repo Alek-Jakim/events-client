@@ -26,7 +26,7 @@ export async function getStaticProps() {
 
     //const res = await fetch("/api/events") --> you can't do this, only absolute routes work
 
-    const res = await fetch(`${API_URL}/api/events`);
+    const res = await fetch(`${API_URL}/events?_sort=date:ASC`);
 
     const evt = await res.json();
 
