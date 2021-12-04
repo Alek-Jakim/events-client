@@ -1,5 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+
+
+/* #e74c3c*/
+
+:root {
+  --toastify-color-light: #e74c3c !important;
+  --toastify-text-color-light: #fff !important;
+  --toastify-icon-color-error: #fff !important;
+  --toastify-color-progress-error: #fff !important;
+}
+
+
+.Toastify__close-button--light:hover {
+  color: #fff !important;
+}
+
+
 * {
   box-sizing: border-box;
   margin: 0;
