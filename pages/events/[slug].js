@@ -8,6 +8,8 @@ import { FaPencilAlt, FaTimes } from "react-icons/fa"
 
 const EventPage = ({ evt }) => {
 
+    // See http://localhost:1337/events
+
     function deleteEvent() {
         console.log("delete")
     }
