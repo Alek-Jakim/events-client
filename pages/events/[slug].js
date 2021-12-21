@@ -4,14 +4,32 @@ import styles from "@/styles/Event.module.css"
 import Link from "next/link"
 import Image from "next/image"
 import { FaPencilAlt, FaTimes } from "react-icons/fa"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from "next/router"
 
 
 const EventPage = ({ evt }) => {
 
+    const router = useRouter();
+
     // See http://localhost:1337/events
 
-    function deleteEvent() {
-        console.log("delete")
+    async function deleteEvent(e) {
+        // window.confirm() instructs the browser to display a dialog with an optional message, and to wait until the user either confirms or cancels the dialog.
+        if (confirm("Are you sure?")) {
+            const res = await fetch(`${API_URL}/events/${evt.id}`, {
+                method: 'DELETE',
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                toast.error(data.message);
+            } else {
+                router.push('/events');
+            }
+        }
     }
 
     return (
@@ -33,6 +51,7 @@ const EventPage = ({ evt }) => {
                 </span>
 
                 <h1>{evt.name}</h1>
+                <ToastContainer />
                 {evt.image && (
                     <div className={styles.image}>
                         <Image
