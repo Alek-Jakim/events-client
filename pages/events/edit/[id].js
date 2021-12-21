@@ -1,4 +1,5 @@
 import moment from "moment"
+import { FaImage } from "react-icons/fa"
 import Layout from "@/components/Layout"
 import { useState } from "react"
 import { useRouter } from "next/router"
@@ -7,6 +8,7 @@ import { API_URL } from "@/config/index"
 import styles from "@/styles/Form.module.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Image from "next/image"
 
 const EditEventPage = ({ evt }) => {
 
@@ -19,6 +21,8 @@ const EditEventPage = ({ evt }) => {
         time: evt.time,
         description: evt.description
     });
+
+    const [imagePreview, setImagePreview] = useState(evt.image ? evt.image.formats.thumbnail.url : null);
 
     const router = useRouter();
 
@@ -138,6 +142,20 @@ const EditEventPage = ({ evt }) => {
 
                 <input type="submit" value="Update Event" className="btn" />
             </form>
+
+            <h2>Event Image</h2>
+
+            {imagePreview ? (
+                <Image src={imagePreview} height={100} width={170} />
+            ) : <div>
+                <p>No Image Uploaded</p>
+            </div>}
+
+            <div>
+                <button className="btn-secondary">
+                    <FaImage /> Set Image
+                </button>
+            </div>
         </Layout>
     )
 }
