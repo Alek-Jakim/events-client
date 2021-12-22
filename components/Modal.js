@@ -9,6 +9,7 @@ const Modal = ({ show, onClose, children, title }) => {
 
     useEffect(() => {
         setIsBrowser(true);
+        document.documentElement.scrollTop = 0;
     });
 
     const handleClose = (e) => {
