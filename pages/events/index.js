@@ -1,8 +1,11 @@
 import Layout from "@/components/Layout"
 import EventItem from "@/components/EventItem"
-import { API_URL } from "@/config/index"
+import { API_URL, PER_PAGE } from "@/config/index"
+import Pagination from "@/components/Pagination"
 
-const EventsPage = ({ evt }) => {
+const EventsPage = ({ evt, page, total }) => {
+
+    // Need to figure out what the last page is going to be
 
     return (
         <Layout>
@@ -14,21 +17,33 @@ const EventsPage = ({ evt }) => {
                 <EventItem key={event.id} event={event} />
             ))}
 
-
+            <Pagination
+                page={page}
+                total={total}
+            />
         </Layout>
     )
 }
 
 export default EventsPage
 
-export async function getStaticProps() {
+export async function getServerSideProps({ query: { page = 1 } }) {
     // make a request to the api routes (like serverless functions)
 
     //const res = await fetch("/api/events") --> you can't do this, only absolute routes work
 
-    const res = await fetch(`${API_URL}/events?_sort=date:ASC`);
+    // Calculate start page
+    const start = parseInt(page) === 1 ? 0 : (parseInt(page) - 1) * PER_PAGE;
 
-    const evt = await res.json();
+    // Fetch total/count
+    const totalRes = await fetch(`${API_URL}/events/count`);
+
+    const total = await totalRes.json();
+
+    //Fetch events
+    const eventRes = await fetch(`${API_URL}/events?_sort=date:ASC&_limit=${PER_PAGE}&_start=${start}`);
+
+    const evt = await eventRes.json();
 
     //This will log in the terminal, not on the client since it is server side
     //console.log(evt);
@@ -40,9 +55,8 @@ export async function getStaticProps() {
             //You return the data here and you catch it above as props 
 
             evt,
-
-            //An optional amount in seconds after which a page re-generation can occur. 
-            revalidate: 1
+            page: parseInt(page),
+            total
         }
     }
 }
