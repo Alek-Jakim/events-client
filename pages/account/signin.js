@@ -5,15 +5,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import Link from "next/link"
 import Layout from '@/components/Layout';
 import styles from "@/styles/AuthForm.module.css"
+import AuthContext from '@/context/AuthContext';
 
 const SignInPage = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const { signin, error } = useContext(AuthContext);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email, password)
+        signin({ email, password });
     }
 
     return (
