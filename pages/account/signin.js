@@ -40,7 +40,7 @@ const SignInPage = () => {
                     <input type="submit" value="Sign In" className="btn" />
                 </form>
 
-                <p>Don't have an account ? <Link href="/account/signup">Sign Up</Link></p>
+                <p>Don't have an account ? <Link href="/account/register">Sign Up</Link></p>
 
             </div>
         </Layout>

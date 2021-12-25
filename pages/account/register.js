@@ -15,7 +15,9 @@ const SignUpPage = () => {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
 
-    const { signup, error } = useContext(AuthContext);
+    const { register, error } = useContext(AuthContext);
+
+    useEffect(() => error && toast.error(error), [error]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +27,7 @@ const SignUpPage = () => {
             return;
         }
 
-        signup({ username, email, password });
+        register({ username, email, password });
 
     }
 

@@ -14,8 +14,24 @@ export const AuthProvider = ({ children }) => {
 
 
     // Sign Up User
-    const signup = async (user) => {
-        console.log(user);
+    const register = async (user) => {
+        const res = await fetch(`${NEXT_URL}/api/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        })
+
+        const data = await res.json()
+
+        if (res.ok) {
+            setUser(data.user)
+            router.push('/account/dashboard')
+        } else {
+            setError(data.message)
+            setError(null)
+        }
     }
 
     // Sign In User
@@ -70,7 +86,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ user, error, signup, signin, signout }}>
+        <AuthContext.Provider value={{ user, error, register, signin, signout }}>
             {children}
         </AuthContext.Provider>
     )
