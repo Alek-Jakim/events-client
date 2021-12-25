@@ -8,6 +8,8 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
+    const router = useRouter();
+
     useEffect(() => checkUserSignedIn(), []);
 
 
@@ -35,6 +37,7 @@ export const AuthProvider = ({ children }) => {
 
         if (res.ok) {
             setUser(data.user);
+            router.push("/account/dashboard");
         } else {
             setError(data.message);
             setError(null);
@@ -43,7 +46,14 @@ export const AuthProvider = ({ children }) => {
 
     // sign out User
     const signout = async () => {
-        console.log("Sign out");
+        const res = await fetch(`${NEXT_URL}/api/signout`, {
+            method: "POST"
+        });
+
+        if (res.ok) {
+            setUser(null);
+            router.push("/");
+        }
     }
 
     // Check if User is signed in
