@@ -14,6 +14,8 @@ const SignInPage = () => {
 
     const { signin, error } = useContext(AuthContext);
 
+    useEffect(() => error && toast.error(error));
+
     const handleSubmit = (e) => {
         e.preventDefault();
         signin({ email, password });
