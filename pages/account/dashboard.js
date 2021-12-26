@@ -1,14 +1,26 @@
 import Layout from "@/components/Layout"
 import { parseCookies } from "@/helpers/index"
 import { API_URL } from "@/config/index"
+import styles from "@/styles/Dashboard.module.css"
+import DashboardEvent from "@/components/DashboardEvent"
 
 const DashboardPage = ({ events }) => {
 
-    console.log(events);
+
+    const handleDeleteEvent = (id) => {
+        console.log(id);
+    }
 
     return (
         <Layout>
-            Dashboard
+            <div className={styles.dash}>
+                <h1>Dashboard</h1>
+                <h3>My Events</h3>
+
+                {events.map((event, index) => (
+                    <DashboardEvent key={index} event={event} handleDeleteEvent={handleDeleteEvent} />
+                ))}
+            </div>
         </Layout>
     )
 }
