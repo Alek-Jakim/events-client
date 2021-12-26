@@ -3,7 +3,7 @@ import Link from "next/link"
 import { FaPencilAlt, FaTimes } from "react-icons/fa"
 import styles from "@/styles/DashboardEvent.module.css"
 
-const DashboardEvent = ({ event, handleDeleteEvent }) => {
+const DashboardEvent = ({ event, deleteEvent }) => {
 
 
 
@@ -19,7 +19,7 @@ const DashboardEvent = ({ event, handleDeleteEvent }) => {
                     <FaPencilAlt /> <span>Edit Event</span>
                 </a>
             </Link>
-            <a href="#" className={styles.delete} onClick={() => handleDeleteEvent(event.id)}><FaTimes /> <span>Delete</span></a>
+            <a href="#" className={styles.delete} onClick={() => deleteEvent(event.id)}><FaTimes /> <span>Delete</span></a>
         </div>
     )
 }

@@ -11,30 +11,15 @@ import { useRouter } from "next/router"
 
 const EventPage = ({ evt }) => {
 
-    const router = useRouter();
+
+    console.log(evt)
 
     // See http://localhost:1337/events
-
-    async function deleteEvent(e) {
-        // window.confirm() instructs the browser to display a dialog with an optional message, and to wait until the user either confirms or cancels the dialog.
-        if (confirm("Are you sure?")) {
-            const res = await fetch(`${API_URL}/events/${evt.id}`, {
-                method: 'DELETE',
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                toast.error(data.message);
-            } else {
-                router.push('/events');
-            }
-        }
-    }
-
     return (
         <Layout>
             <div className={styles.event}>
+                {/* This is no longer necessary since you can edit and delete from the dashboard of the signed in user
+
                 <div className={styles.controls}>
                     <Link href={`/events/edit/${evt.id}`}>
                         <a>
@@ -45,7 +30,7 @@ const EventPage = ({ evt }) => {
                         <FaTimes /> Delete Event
                     </a>
                 </div>
-
+            */}
                 <span>
                     {new Date(evt.date).toLocaleDateString("en-US")} at {evt.time}
                 </span>
@@ -55,7 +40,7 @@ const EventPage = ({ evt }) => {
                 {evt.image && (
                     <div className={styles.image}>
                         <Image
-                            src={evt.image.formats.medium.url}
+                            src={!evt.image.formats.medium.url ? evt.image.formats.thumbnail.url : evt.image.formats.medium.url}
                             width={960}
                             height={600} />
                     </div>
@@ -103,7 +88,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { slug } }) {
     const res = await fetch(`${API_URL}/events?slug=${slug}`)
-    const events = await res.json()
+    const events = await res.json();
 
     return {
         props: {

@@ -11,8 +11,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Image from "next/image"
 import ImageUpload from "@/components/ImageUpload"
+import { parseCookies } from "@/helpers/index"
 
-const EditEventPage = ({ evt }) => {
+
+const EditEventPage = ({ evt, token }) => {
 
     const [values, setValues] = useState({
         name: evt.name,
@@ -63,12 +65,17 @@ const EditEventPage = ({ evt }) => {
             const res = await fetch(`${API_URL}/events/${evt.id}`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(values)
             });
 
             if (!res.ok) {
+                if (res.status === 403 || res.status === 401) {
+                    toast.error("You are unauthorized!");
+                    return
+                }
                 toast.error("Something went wrong! Not a very helpful message, I know...")
             } else {
                 const evt = await res.json();
@@ -174,7 +181,7 @@ const EditEventPage = ({ evt }) => {
             </div>
 
             <Modal show={showModal} onClose={() => setShowModal(false)}>
-                <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
+                <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} token={token} />
             </Modal>
         </Layout>
     )
@@ -184,13 +191,16 @@ export default EditEventPage
 
 
 export async function getServerSideProps({ params: { id }, req /*this is where the cookie is located */ }) {
-    const res = await fetch(`${API_URL}/events/${id}`);
 
+    const { token } = parseCookies(req);
+
+    const res = await fetch(`${API_URL}/events/${id}`);
     const evt = await res.json();
 
     return {
         props: {
-            evt
+            evt,
+            token
         }
     }
 }
