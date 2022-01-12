@@ -4,6 +4,7 @@ import styles from "@/styles/Event.module.css"
 import Link from "next/link"
 import Image from "next/image"
 import { FaPencilAlt, FaTimes } from "react-icons/fa"
+import EventMap from "@/components/EventMap"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router"
@@ -11,8 +12,6 @@ import { useRouter } from "next/router"
 
 const EventPage = ({ evt }) => {
 
-
-    console.log(evt)
 
     // See http://localhost:1337/events
     return (
@@ -54,6 +53,7 @@ const EventPage = ({ evt }) => {
                 <p>{evt.address}</p>
 
                 {/* THERE WILL BE A MAP HERE, MARK MY WORDS */}
+                <EventMap evt={evt} />
 
                 <Link href="/events">
                     <a className={styles.back}>{"<"} Go Back</a>
