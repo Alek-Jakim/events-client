@@ -45,8 +45,6 @@ const EditEventPage = ({ evt, token }) => {
         const res = await fetch(`${API_URL}/events/${evt.id}`);
         const data = await res.json();
 
-        console.log(data.image)
-
         setImagePreview(data.image.formats.thumbnail.url);
         setShowModal(false);
     }

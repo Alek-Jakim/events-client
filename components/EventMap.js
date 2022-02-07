@@ -16,9 +16,6 @@ export default function EventMap({ evt }) {
         zoom: 12,
     });
 
-    console.log(evt.address)
-
-
     const getGeocode = async (address) => {
 
         try {

@@ -4,11 +4,6 @@ import { API_URL, PER_PAGE } from "@/config/index"
 import Pagination from "@/components/Pagination"
 
 const EventsPage = ({ evt, page, total }) => {
-
-    // Need to figure out what the last page is going to be
-
-    console.log(evt)
-
     return (
         <Layout>
             <h1>Events</h1>
