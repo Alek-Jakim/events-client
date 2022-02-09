@@ -9,6 +9,8 @@ const DashboardPage = ({ events, token }) => {
 
     const router = useRouter();
 
+    console.log(events)
+
     async function deleteEvent(id) {
         // window.confirm() instructs the browser to display a dialog with an optional message, and to wait until the user either confirms or cancels the dialog.
         if (confirm("Are you sure?")) {
@@ -35,9 +37,9 @@ const DashboardPage = ({ events, token }) => {
                 <h1>Dashboard</h1>
                 <h3>My Events</h3>
 
-                {events.map((event, index) => (
+                {events ? events.map((event, index) => (
                     <DashboardEvent key={index} event={event} deleteEvent={deleteEvent} />
-                ))}
+                )) : ""}
             </div>
         </Layout>
     )

@@ -11,7 +11,7 @@ export default function HomePage({ evt }) {
       {evt.length === 0 && <h3>No events at this moment</h3>}
 
 
-      {evt.map(event => (
+      {evt && evt.map(event => (
         <EventItem key={event.id} event={event} />
       ))}
 
@@ -29,17 +29,19 @@ export async function getStaticProps() {
 
   //const res = await fetch("/api/events") --> you can't do this, only absolute routes work
 
-  const res = await fetch(`${API_URL}/events?_sort=date:ASC&_limit=3`);
+  // const res = await fetch(`${API_URL}/events?_sort=date:ASC&_limit=3`);
+  const res = await fetch(`http://localhost:1337/events?_sort=date:ASC&_limit=3`);
+
+  console.log(API_URL)
+  console.log("API_URL")
 
   const evt = await res.json();
 
   //This will log in the terminal, not on the client since it is server side
-  //console.log(evt);
 
   //This function must RETURN an object, otherwise it will give you an error
 
   return {
-    props: { evt },
-    revalidate: 1
+    props: { evt }
   }
 }
