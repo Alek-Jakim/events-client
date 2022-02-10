@@ -22,5 +22,12 @@ module.exports = {
         ]
       }
     ]
-  }
+  }, async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://djevents-aleksandar.vercel.app/:path*',
+      },
+    ]
+  },
 }
